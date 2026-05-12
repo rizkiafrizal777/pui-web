@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Public routes (tidak perlu login)
+Route::post('/login', [AuthController::class, 'login']);
+
+// Protected routes (harus menyertakan Bearer Token)
+Route::middleware('auth:sanctum')->group(function () {
+    // User info (bawaan Laravel, opsional)
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Endpoint Produk
+    Route::get('/produk', [ProdukController::class, 'index']);
+
+    // Endpoint Logout
+    Route::post('/logout', [AuthController::class, 'logout']);
 });

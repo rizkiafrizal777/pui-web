@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable; // Wajib untuk autentikasi Laravel
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens; // Ditambahkan untuk autentikasi API (Sanctum)
 
 class Pengguna extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $table = 'pengguna'; // Mengarah ke tabel 'pengguna', bukan 'users'
 
