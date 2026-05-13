@@ -13,8 +13,16 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        // Mengambil semua produk yang tersedia
+        // Mengambil semua produk
         $produk = Produk::all();
+
+        // Tambahkan URL lengkap untuk field foto agar bisa langsung dipakai di mobile
+        $produk->transform(function ($item) {
+            $item->foto = $item->foto
+                ? asset('storage/' . $item->foto)
+                : null;
+            return $item;
+        });
 
         return response()->json([
             'success' => true,

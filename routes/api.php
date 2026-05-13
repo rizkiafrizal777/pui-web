@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProdukController;
+use App\Http\Controllers\Api\PesananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Endpoint Produk
     Route::get('/produk', [ProdukController::class, 'index']);
+
+    // Endpoint Pesanan / Transaksi
+    Route::post('/pesanan', [PesananController::class, 'store']);
+    Route::get('/pesanan', [PesananController::class, 'index']);
+    Route::get('/pesanan/{id}', [PesananController::class, 'show']);
 
     // Endpoint Logout
     Route::post('/logout', [AuthController::class, 'logout']);
