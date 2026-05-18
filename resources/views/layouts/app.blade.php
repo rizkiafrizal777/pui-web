@@ -66,12 +66,18 @@
                     <a href="{{ route('admin.pengguna.index') }}" class="{{ request()->routeIs('admin.pengguna.*') ? 'active' : '' }}">
                         <i class="bi bi-people me-2"></i> Pengguna
                     </a>
+                    <a href="{{ route('pengaturan.index') }}" class="{{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+                        <i class="bi bi-gear me-2"></i> Pengaturan
+                    </a>
                 @elseif(Auth::user()->role === 'kasir')
                     <a href="{{ route('kasir.pos') }}" class="{{ request()->routeIs('kasir.pos') ? 'active' : '' }}">
                         <i class="bi bi-calculator me-2"></i> Kasir (POS)
                     </a>
                     <a href="{{ route('kasir.riwayat') }}" class="{{ request()->routeIs('kasir.riwayat') ? 'active' : '' }}">
                         <i class="bi bi-receipt me-2"></i> Riwayat Pesanan
+                    </a>
+                    <a href="{{ route('pengaturan.index') }}" class="{{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+                        <i class="bi bi-gear me-2"></i> Pengaturan
                     </a>
                 @endif
             </div>
@@ -86,10 +92,6 @@
                 </div>
                 <div>
                     <span class="me-3"><i class="bi bi-person-circle"></i> {{ Auth::user()->nama }}</span>
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-outline-light"><i class="bi bi-box-arrow-right"></i> Logout</button>
-                    </form>
                 </div>
             </div>
 

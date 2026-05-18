@@ -22,6 +22,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Protected Routes (Butuh Login)
 Route::middleware('auth')->group(function () {
     
+    // Pengaturan Akun (Untuk semua role)
+    Route::get('/pengaturan', [App\Http\Controllers\PengaturanController::class, 'index'])->name('pengaturan.index');
+    Route::post('/pengaturan', [App\Http\Controllers\PengaturanController::class, 'update'])->name('pengaturan.update');
+    
     // Route Khusus Admin
     Route::middleware('role:admin')->prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
