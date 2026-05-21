@@ -56,9 +56,15 @@ class PosController extends Controller
                     throw new \Exception("Produk \"{$produk->nama_produk}\" sudah tidak tersedia.");
                 }
 
+                $jumlah = (int) $item['jumlah'];
+
+                // Cek kecukupan stok
+                if ($produk->stok < $jumlah) {
+                    throw new \Exception("Stok \"{$produk->nama_produk}\" tidak mencukupi. Stok tersisa: {$produk->stok}.");
+                }
+
                 // Hitung subtotal menggunakan HARGA DARI DATABASE
                 $hargaSatuan = (float) $produk->harga;
-                $jumlah      = (int)   $item['jumlah'];
                 $subtotal    = $hargaSatuan * $jumlah;
 
                 // Akumulasi ke total keseluruhan
@@ -66,10 +72,11 @@ class PosController extends Controller
 
                 // Simpan ke array item valid dengan harga dari DB
                 $itemsValid[] = [
+                    'produk_obj'   => $produk, // referensi untuk kurangi stok setelah simpan
                     'id_produk'    => $produk->id,
                     'jumlah'       => $jumlah,
-                    'harga_satuan' => $hargaSatuan, // dari DB, bukan dari request
-                    'subtotal'     => $subtotal,    // dihitung di server
+                    'harga_satuan' => $hargaSatuan,
+                    'subtotal'     => $subtotal,
                 ];
             }
 
@@ -125,7 +132,7 @@ class PosController extends Controller
                 'tgl_pesanan'   => Carbon::now(),
             ]);
 
-            // ─── SIMPAN ITEM PESANAN ───────────────────────────────────────────
+            // ─── SIMPAN ITEM PESANAN & KURANGI STOK ───────────────────────────
             // Menggunakan $itemsValid (harga dari DB), BUKAN $request->items langsung
             foreach ($itemsValid as $item) {
                 ItemPesanan::create([
@@ -135,6 +142,9 @@ class PosController extends Controller
                     'harga_satuan' => $item['harga_satuan'], // dari DB
                     'subtotal'     => $item['subtotal'],     // dihitung server
                 ]);
+
+                // Kurangi stok produk
+                $item['produk_obj']->decrement('stok', $item['jumlah']);
             }
 
             DB::commit();

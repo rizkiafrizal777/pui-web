@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +23,8 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        return view('admin.produk.create');
+        $kategoris = Kategori::orderBy('nama')->pluck('nama');
+        return view('admin.produk.create', compact('kategoris'));
     }
 
     /**
@@ -34,6 +36,7 @@ class ProdukController extends Controller
             'nama_produk' => 'required|string|max:100',
             'harga'       => 'required|numeric|min:0',
             'kategori'    => 'required|string|max:50',
+            'stok'        => 'required|integer|min:0',
             'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'deskripsi'   => 'nullable|string',
             'tersedia'    => 'nullable|boolean',
@@ -58,8 +61,9 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-        $produk = Produk::findOrFail($id);
-        return view('admin.produk.edit', compact('produk'));
+        $produk    = Produk::findOrFail($id);
+        $kategoris = Kategori::orderBy('nama')->pluck('nama');
+        return view('admin.produk.edit', compact('produk', 'kategoris'));
     }
 
     /**
@@ -73,6 +77,7 @@ class ProdukController extends Controller
             'nama_produk' => 'required|string|max:100',
             'harga'       => 'required|numeric|min:0',
             'kategori'    => 'required|string|max:50',
+            'stok'        => 'required|integer|min:0',
             'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'deskripsi'   => 'nullable|string',
             'tersedia'    => 'nullable|boolean',

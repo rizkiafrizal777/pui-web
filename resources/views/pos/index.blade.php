@@ -15,7 +15,7 @@
                 <div class="row g-3" id="productGrid">
                     @forelse($produk as $p)
                     <div class="col-md-4 product-item" data-nama="{{ strtolower($p->nama_produk) }}">
-                        <div class="card h-100 product-card" role="button" onclick="addToCart({{ $p->id }}, '{{ addslashes($p->nama_produk) }}', {{ $p->harga }})">
+                        <div class="card h-100 product-card {{ $p->stok <= 0 ? 'opacity-75' : '' }}" role="button" onclick="addToCart({{ $p->id }}, '{{ addslashes($p->nama_produk) }}', {{ $p->harga }}, {{ $p->stok }})">
                             @if($p->foto)
                                 <img src="{{ asset('storage/'.$p->foto) }}" class="card-img-top" alt="{{ $p->nama_produk }}" style="height: 150px; object-fit: cover;">
                             @else
@@ -23,9 +23,20 @@
                                     <i class="bi bi-cup-hot fs-1"></i>
                                 </div>
                             @endif
-                            <div class="card-body p-2 text-center">
-                                <h6 class="card-title mb-1 text-truncate">{{ $p->nama_produk }}</h6>
-                                <span class="badge bg-secondary mb-2">{{ $p->kategori }}</span>
+                            <div class="card-body p-2 text-center d-flex flex-column justify-content-between">
+                                <div>
+                                    <h6 class="card-title mb-1 text-truncate">{{ $p->nama_produk }}</h6>
+                                    <span class="badge bg-secondary mb-1">{{ $p->kategori }}</span>
+                                    <div class="mb-2">
+                                        @if($p->stok <= 0)
+                                            <span class="badge bg-danger">Habis</span>
+                                        @elseif($p->stok <= 5)
+                                            <span class="badge bg-warning text-dark">Sisa: {{ $p->stok }}</span>
+                                        @else
+                                            <span class="badge bg-light text-dark">Stok: {{ $p->stok }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                                 <p class="card-text fw-bold text-success mb-0">Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
                             </div>
                         </div>
@@ -144,12 +155,20 @@
     });
 
     // ── 2. Tambah ke Keranjang ───────────────────────────────────────────────
-    function addToCart(id, nama, harga) {
+    function addToCart(id, nama, harga, stok) {
         if (cart[id]) {
+            if (cart[id].jumlah >= stok) {
+                alert(`Stok untuk "${nama}" tidak mencukupi. Sisa stok: ${stok}`);
+                return;
+            }
             cart[id].jumlah  += 1;
             cart[id].subtotal = cart[id].jumlah * harga;
         } else {
-            cart[id] = { id, nama, harga, jumlah: 1, subtotal: harga };
+            if (stok <= 0) {
+                alert(`Stok "${nama}" sudah habis!`);
+                return;
+            }
+            cart[id] = { id, nama, harga, jumlah: 1, subtotal: harga, stok: stok };
         }
         renderCart();
     }
@@ -195,6 +214,10 @@
     function updateQty(id, qty) {
         qty = parseInt(qty);
         if (qty < 1 || isNaN(qty)) { removeItem(id); return; }
+        if (qty > cart[id].stok) {
+            alert(`Stok untuk "${cart[id].nama}" tidak mencukupi. Sisa stok: ${cart[id].stok}`);
+            qty = cart[id].stok;
+        }
         cart[id].jumlah   = qty;
         cart[id].subtotal = cart[id].harga * qty;
         renderCart();

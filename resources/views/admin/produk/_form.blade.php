@@ -1,7 +1,7 @@
 <div class="row g-3">
     <div class="col-md-6">
         <label for="nama_produk" class="form-label">Nama Produk <span class="text-danger">*</span></label>
-        <input type="text" class="form-control @error('nama_produk') is-invalid @enderror" id="nama_produk" name="nama_produk" 
+        <input type="text" class="form-control @error('nama_produk') is-invalid @enderror" id="nama_produk" name="nama_produk"
                value="{{ old('nama_produk', $produk->nama_produk ?? '') }}" required>
         @error('nama_produk')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -12,11 +12,8 @@
         <label for="kategori" class="form-label">Kategori <span class="text-danger">*</span></label>
         <select class="form-select @error('kategori') is-invalid @enderror" id="kategori" name="kategori" required>
             <option value="">Pilih Kategori...</option>
-            @php
-                $kategori_list = ['Kopi', 'Kopi Susu', 'Non-Kopi', 'Teh', 'Camilan', 'Makanan Berat'];
-                $selected_kategori = old('kategori', $produk->kategori ?? '');
-            @endphp
-            @foreach($kategori_list as $kat)
+            @php $selected_kategori = old('kategori', $produk->kategori ?? ''); @endphp
+            @foreach($kategoris as $kat)
                 <option value="{{ $kat }}" {{ $selected_kategori == $kat ? 'selected' : '' }}>{{ $kat }}</option>
             @endforeach
         </select>
@@ -25,29 +22,40 @@
         @enderror
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <label for="harga" class="form-label">Harga (Rp) <span class="text-danger">*</span></label>
-        <input type="number" class="form-control @error('harga') is-invalid @enderror" id="harga" name="harga" min="0" 
+        <input type="number" class="form-control @error('harga') is-invalid @enderror" id="harga" name="harga" min="0"
                value="{{ old('harga', isset($produk->harga) ? intval($produk->harga) : '') }}" required>
         @error('harga')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
+        <label for="stok" class="form-label">Stok Awal <span class="text-danger">*</span></label>
+        <input type="number" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" min="0"
+               value="{{ old('stok', $produk->stok ?? 0) }}" required>
+        <div class="form-text">Jumlah stok yang tersedia.</div>
+        @error('stok')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-md-4">
         <label for="foto" class="form-label">Foto Produk (Opsional)</label>
-        <input type="file" class="form-control @error('foto') is-invalid @enderror" id="foto" name="foto" accept="image/png, image/jpeg, image/webp" onchange="previewImage(this)">
-        <div class="form-text">Maksimal ukuran file: 2MB. Ekstensi: jpg, png, webp.</div>
+        <input type="file" class="form-control @error('foto') is-invalid @enderror" id="foto" name="foto"
+               accept="image/png, image/jpeg, image/webp" onchange="previewImage(this)">
+        <div class="form-text">Maks. 2MB. Format: jpg, png, webp.</div>
         @error('foto')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
-        
+
         <!-- Image Preview -->
         <div class="mt-2">
             @if(isset($produk) && $produk->foto)
-                <img id="imgPreview" src="{{ asset('storage/'.$produk->foto) }}" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
+                <img id="imgPreview" src="{{ asset('storage/'.$produk->foto) }}" alt="Preview" class="img-thumbnail" style="max-height: 130px;">
             @else
-                <img id="imgPreview" src="#" alt="Preview" class="img-thumbnail" style="max-height: 150px; display: none;">
+                <img id="imgPreview" src="#" alt="Preview" class="img-thumbnail" style="max-height: 130px; display: none;">
             @endif
         </div>
     </div>
@@ -60,7 +68,7 @@
         @enderror
     </div>
 
-    <div class="col-12 mt-4">
+    <div class="col-12 mt-2">
         <div class="form-check form-switch fs-5">
             <input class="form-check-input" type="checkbox" role="switch" id="tersedia" name="tersedia" value="1"
                    {{ old('tersedia', $produk->tersedia ?? true) ? 'checked' : '' }}>

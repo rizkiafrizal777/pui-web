@@ -21,6 +21,7 @@
                         <th>Nama Produk</th>
                         <th>Kategori</th>
                         <th>Harga</th>
+                        <th>Stok</th>
                         <th>Status</th>
                         <th width="150" class="text-center">Aksi</th>
                     </tr>
@@ -41,6 +42,15 @@
                         <td class="fw-bold">{{ $p->nama_produk }}</td>
                         <td><span class="badge bg-secondary">{{ $p->kategori }}</span></td>
                         <td>Rp {{ number_format($p->harga, 0, ',', '.') }}</td>
+                        <td>
+                            @if($p->stok == 0)
+                                <span class="badge bg-danger">0 (Habis)</span>
+                            @elseif($p->stok <= 5)
+                                <span class="badge bg-warning text-dark">{{ $p->stok }} (Menipis)</span>
+                            @else
+                                <span class="badge bg-success">{{ $p->stok }}</span>
+                            @endif
+                        </td>
                         <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" id="toggleStatus{{ $p->id }}" 
@@ -66,7 +76,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">Belum ada data produk.</td>
+                        <td colspan="8" class="text-center text-muted py-4">Belum ada data produk.</td>
                     </tr>
                     @endforelse
                 </tbody>

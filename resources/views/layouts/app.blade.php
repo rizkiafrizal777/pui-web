@@ -60,6 +60,12 @@
                     <a href="{{ route('produk.index') }}" class="{{ request()->routeIs('produk.*') ? 'active' : '' }}">
                         <i class="bi bi-box-seam me-2"></i> Produk
                     </a>
+                    <a href="{{ route('kategori.index') }}" class="{{ request()->routeIs('kategori.*') ? 'active' : '' }}">
+                        <i class="bi bi-tags me-2"></i> Kategori
+                    </a>
+                    <a href="{{ route('stok.index') }}" class="{{ request()->routeIs('stok.*') ? 'active' : '' }}">
+                        <i class="bi bi-archive me-2"></i> Stok
+                    </a>
                     <a href="{{ route('laporan.index') }}" class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
                         <i class="bi bi-file-earmark-bar-graph me-2"></i> Laporan
                     </a>

@@ -18,6 +18,7 @@ class Produk extends Model
         'foto',
         'deskripsi',
         'tersedia',
+        'stok',
     ];
 
     public function itemPesanan()

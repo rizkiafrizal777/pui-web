@@ -52,11 +52,19 @@ Route::middleware('auth')->group(function () {
         // Manajemen Produk
         Route::resource('/produk', App\Http\Controllers\ProdukController::class)->names('produk');
         Route::patch('/produk/{id}/toggle', [App\Http\Controllers\ProdukController::class, 'toggle'])->name('produk.toggle');
-        
+
+        // Manajemen Kategori
+        Route::resource('/kategori', App\Http\Controllers\KategoriController::class)->names('kategori');
+
+        // Manajemen Stok
+        Route::get('/stok', [App\Http\Controllers\StokController::class, 'index'])->name('stok.index');
+        Route::post('/stok/{id}/tambah', [App\Http\Controllers\StokController::class, 'tambah'])->name('stok.tambah');
+        Route::post('/stok/{id}/set', [App\Http\Controllers\StokController::class, 'set'])->name('stok.set');
+
         // Laporan Penjualan
         Route::get('/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/export', [App\Http\Controllers\LaporanController::class, 'export'])->name('laporan.export');
-        
+
         // Manajemen Pengguna
         Route::resource('/pengguna', App\Http\Controllers\PenggunaController::class)->names('admin.pengguna');
     });
