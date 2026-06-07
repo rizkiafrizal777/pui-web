@@ -85,8 +85,17 @@ class ProdukSeeder extends Seeder
             ],
         ];
 
-        foreach ($produks as $produk) {
-            Produk::create($produk);
+        foreach ($produks as $produkData) {
+            $kategori = \App\Models\Kategori::where('nama', $produkData['kategori'])->first();
+            if ($kategori) {
+                $produkData['id_kategori'] = $kategori->id;
+            } else {
+                $kategoriBaru = \App\Models\Kategori::create(['nama' => $produkData['kategori']]);
+                $produkData['id_kategori'] = $kategoriBaru->id;
+            }
+            unset($produkData['kategori']);
+
+            Produk::create($produkData);
         }
     }
 }

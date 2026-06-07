@@ -9,15 +9,15 @@
     </div>
 
     <div class="col-md-6">
-        <label for="kategori" class="form-label">Kategori <span class="text-danger">*</span></label>
-        <select class="form-select @error('kategori') is-invalid @enderror" id="kategori" name="kategori" required>
+        <label for="id_kategori" class="form-label">Kategori <span class="text-danger">*</span></label>
+        <select class="form-select @error('id_kategori') is-invalid @enderror" id="id_kategori" name="id_kategori" required>
             <option value="">Pilih Kategori...</option>
-            @php $selected_kategori = old('kategori', $produk->kategori ?? ''); @endphp
+            @php $selected_kategori = old('id_kategori', $produk->id_kategori ?? ''); @endphp
             @foreach($kategoris as $kat)
-                <option value="{{ $kat }}" {{ $selected_kategori == $kat ? 'selected' : '' }}>{{ $kat }}</option>
+                <option value="{{ $kat->id }}" {{ $selected_kategori == $kat->id ? 'selected' : '' }}>{{ $kat->nama }}</option>
             @endforeach
         </select>
-        @error('kategori')
+        @error('id_kategori')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>

@@ -37,4 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Endpoint Logout
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Endpoint Update Profile
+    Route::put('/update-profile', [AuthController::class, 'updateProfile']);
 });

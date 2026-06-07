@@ -6,7 +6,7 @@
 @section('content')
 <div class="row mb-4">
     <div class="col-12">
-        <h4 class="fw-bold text-secondary">Selamat Datang, {{ Auth::user()->nama }}! 👋</h4>
+        <h4 class="fw-bold text-secondary">Selamat Datang, {{ Auth::user()->nama }}</h4>
         <p class="text-muted">Berikut adalah ringkasan performa Ngesis Coffee hari ini.</p>
     </div>
 </div>

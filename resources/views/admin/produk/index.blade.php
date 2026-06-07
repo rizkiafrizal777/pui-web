@@ -40,7 +40,7 @@
                             @endif
                         </td>
                         <td class="fw-bold">{{ $p->nama_produk }}</td>
-                        <td><span class="badge bg-secondary">{{ $p->kategori }}</span></td>
+                        <td><span class="badge bg-secondary">{{ $p->kategori->nama ?? '-' }}</span></td>
                         <td>Rp {{ number_format($p->harga, 0, ',', '.') }}</td>
                         <td>
                             @if($p->stok == 0)

@@ -14,7 +14,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produks = Produk::orderBy('id', 'desc')->paginate(10);
+        $produks = Produk::with('kategori')->orderBy('id', 'desc')->paginate(10);
         return view('admin.produk.index', compact('produks'));
     }
 
@@ -23,7 +23,7 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        $kategoris = Kategori::orderBy('nama')->pluck('nama');
+        $kategoris = Kategori::orderBy('nama')->get();
         return view('admin.produk.create', compact('kategoris'));
     }
 
@@ -35,7 +35,7 @@ class ProdukController extends Controller
         $request->validate([
             'nama_produk' => 'required|string|max:100',
             'harga'       => 'required|numeric|min:0',
-            'kategori'    => 'required|string|max:50',
+            'id_kategori' => 'required|exists:kategori,id',
             'stok'        => 'required|integer|min:0',
             'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'deskripsi'   => 'nullable|string',
@@ -62,7 +62,7 @@ class ProdukController extends Controller
     public function edit($id)
     {
         $produk    = Produk::findOrFail($id);
-        $kategoris = Kategori::orderBy('nama')->pluck('nama');
+        $kategoris = Kategori::orderBy('nama')->get();
         return view('admin.produk.edit', compact('produk', 'kategoris'));
     }
 
@@ -76,7 +76,7 @@ class ProdukController extends Controller
         $request->validate([
             'nama_produk' => 'required|string|max:100',
             'harga'       => 'required|numeric|min:0',
-            'kategori'    => 'required|string|max:50',
+            'id_kategori' => 'required|exists:kategori,id',
             'stok'        => 'required|integer|min:0',
             'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'deskripsi'   => 'nullable|string',

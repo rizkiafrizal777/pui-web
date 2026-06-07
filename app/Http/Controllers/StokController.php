@@ -12,7 +12,7 @@ class StokController extends Controller
      */
     public function index()
     {
-        $produks = Produk::orderBy('nama_produk')->get();
+        $produks = Produk::with('kategori')->orderBy('nama_produk')->get();
         return view('admin.stok.index', compact('produks'));
     }
 

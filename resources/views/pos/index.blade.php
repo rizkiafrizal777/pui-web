@@ -26,7 +26,7 @@
                             <div class="card-body p-2 text-center d-flex flex-column justify-content-between">
                                 <div>
                                     <h6 class="card-title mb-1 text-truncate">{{ $p->nama_produk }}</h6>
-                                    <span class="badge bg-secondary mb-1">{{ $p->kategori }}</span>
+                                    <span class="badge bg-secondary mb-1">{{ $p->kategori->nama ?? '-' }}</span>
                                     <div class="mb-2">
                                         @if($p->stok <= 0)
                                             <span class="badge bg-danger">Habis</span>

@@ -59,4 +59,31 @@ class AuthController extends Controller
             'message' => 'Logout berhasil.',
         ], 200);
     }
+
+    /**
+     * Update email and/or password for the authenticated user.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'email' => 'required|email|unique:pengguna,email,' . $user->id,
+            'password' => 'nullable|min:6',
+        ]);
+
+        $user->email = $request->email;
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui.',
+            'data' => [
+                'user' => $user
+            ]
+        ], 200);
+    }
 }

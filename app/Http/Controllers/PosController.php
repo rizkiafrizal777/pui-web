@@ -18,7 +18,7 @@ class PosController extends Controller
     public function index()
     {
         // Ambil semua produk yang tersedia
-        $produk = Produk::where('tersedia', true)->get();
+        $produk = Produk::with('kategori')->where('tersedia', true)->get();
         return view('pos.index', compact('produk'));
     }
 

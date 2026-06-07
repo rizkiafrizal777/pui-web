@@ -13,8 +13,8 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        // Mengambil semua produk
-        $produk = Produk::all();
+        // Mengambil semua produk dengan kategori
+        $produk = Produk::with('kategori')->get();
 
         // Tambahkan URL lengkap untuk field foto agar bisa langsung dipakai di mobile
         $produk->transform(function ($item) {

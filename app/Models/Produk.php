@@ -14,12 +14,17 @@ class Produk extends Model
     protected $fillable = [
         'nama_produk',
         'harga',
-        'kategori',
+        'id_kategori',
         'foto',
         'deskripsi',
         'tersedia',
         'stok',
     ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
 
     public function itemPesanan()
     {
