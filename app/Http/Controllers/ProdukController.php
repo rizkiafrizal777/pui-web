@@ -9,27 +9,21 @@ use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
-    /**
-     * Tampilkan daftar produk dengan paginasi.
-     */
+    //Tampilkan daftar produk dengan paginasi.
     public function index()
     {
         $produks = Produk::with('kategori')->orderBy('id', 'desc')->paginate(10);
         return view('admin.produk.index', compact('produks'));
     }
 
-    /**
-     * Tampilkan form tambah produk.
-     */
+    //Tampilkan form tambah produk.
     public function create()
     {
         $kategoris = Kategori::orderBy('nama')->get();
         return view('admin.produk.create', compact('kategoris'));
     }
 
-    /**
-     * Simpan data produk baru ke database.
-     */
+    //Simpan data produk baru ke database.
     public function store(Request $request)
     {
         $request->validate([
