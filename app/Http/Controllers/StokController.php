@@ -7,18 +7,14 @@ use Illuminate\Http\Request;
 
 class StokController extends Controller
 {
-    /**
-     * Tampilkan daftar stok semua produk.
-     */
+    //Tampilkan daftar stok semua produk.
     public function index()
     {
         $produks = Produk::with('kategori')->orderBy('nama_produk')->get();
         return view('admin.stok.index', compact('produks'));
     }
 
-    /**
-     * Tambah stok produk.
-     */
+    //Tambah stok produk.
     public function tambah(Request $request, $id)
     {
         $request->validate([
@@ -31,9 +27,7 @@ class StokController extends Controller
         return back()->with('success', "Stok \"{$produk->nama_produk}\" berhasil ditambah {$request->jumlah} unit. Stok sekarang: {$produk->stok}.");
     }
 
-    /**
-     * Set / reset stok produk ke nilai tertentu.
-     */
+    //Set / reset stok produk ke nilai tertentu.
     public function set(Request $request, $id)
     {
         $request->validate([

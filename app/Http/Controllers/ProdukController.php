@@ -56,9 +56,7 @@ class ProdukController extends Controller
         return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
-    /**
-     * Tampilkan form edit produk.
-     */
+    //Tampilkan form edit produk.
     public function edit($id)
     {
         $produk    = Produk::findOrFail($id);
@@ -66,9 +64,7 @@ class ProdukController extends Controller
         return view('admin.produk.edit', compact('produk', 'kategoris'));
     }
 
-    /**
-     * Update data produk di database.
-     */
+    //Update data produk di database.
     public function update(Request $request, $id)
     {
         $produk = Produk::findOrFail($id);
@@ -101,9 +97,7 @@ class ProdukController extends Controller
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
-    /**
-     * Hapus produk dari database dan foto dari storage.
-     */
+    //Hapus produk dari database dan foto dari storage.
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
@@ -118,9 +112,7 @@ class ProdukController extends Controller
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');
     }
 
-    /**
-     * Toggle status tersedia (dipanggil via AJAX).
-     */
+    //Toggle status tersedia (dipanggil via AJAX).
     public function toggle($id)
     {
         $produk = Produk::findOrFail($id);

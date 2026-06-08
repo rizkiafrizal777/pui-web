@@ -11,9 +11,7 @@ use App\Exports\LaporanPenjualanExport;
 
 class LaporanController extends Controller
 {
-    /**
-     * Tampilkan halaman laporan.
-     */
+    //Tampilkan halaman laporan
     public function index(Request $request)
     {
         // Set default filter: Hari ini
@@ -71,9 +69,7 @@ class LaporanController extends Controller
         ));
     }
 
-    /**
-     * Export laporan ke file Excel.
-     */
+    //Export laporan ke file Excel.
     public function export(Request $request)
     {
         $dari = $request->input('dari', Carbon::today()->format('Y-m-d'));

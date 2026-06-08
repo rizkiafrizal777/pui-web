@@ -175,7 +175,7 @@ class PosController extends Controller
     }
 
     /**
-     * Tampilkan halaman struk lama (masih diakses dari riwayat)
+     * //Tampilkan halaman struk lama (masih diakses dari riwayat)
      */
     public function struk($id)
     {

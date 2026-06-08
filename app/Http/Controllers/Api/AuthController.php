@@ -34,7 +34,7 @@ class AuthController extends Controller
         // $pengguna->tokens()->delete();
 
         // Buat token baru
-        $token = $pengguna->createToken('ngesis_pos_mobile')->plainTextToken;
+        $token = $pengguna->createToken('ngesis Kasir Mobile')->plainTextToken;
 
         return response()->json([
             'success' => true,
