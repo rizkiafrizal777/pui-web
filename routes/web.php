@@ -65,6 +65,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/export', [App\Http\Controllers\LaporanController::class, 'export'])->name('laporan.export');
 
+        // Manajemen Shift Kasir
+        Route::get('/shift', [\App\Http\Controllers\ShiftAdminController::class, 'index'])->name('admin.shift');
+
         // Manajemen Pengguna
         Route::resource('/pengguna', App\Http\Controllers\PenggunaController::class)->names('admin.pengguna');
     });
@@ -77,7 +80,7 @@ Route::middleware('auth')->group(function () {
         // Proses checkout AJAX
         Route::post('/pos/bayar', [App\Http\Controllers\PosController::class, 'bayar'])->name('pos.bayar');
 
-        // Halaman Konfirmasi Selesai (redirect target setelah bayar) — BARU
+        // Halaman Konfirmasi Selesai (redirect target setelah bayar)
         Route::get('/selesai/{id}', [App\Http\Controllers\PosController::class, 'selesai'])->name('pos.selesai');
 
         // Halaman Struk (akses dari riwayat pesanan)
@@ -85,6 +88,11 @@ Route::middleware('auth')->group(function () {
 
         // Riwayat Pesanan
         Route::get('/riwayat-pesanan', [App\Http\Controllers\PosController::class, 'riwayat'])->name('kasir.riwayat');
+
+        // Halaman Shift Kasir (web-based)
+        Route::get('/shift', [\App\Http\Controllers\ShiftKasirController::class, 'index'])->name('kasir.shift');
+        Route::post('/shift/mulai', [\App\Http\Controllers\ShiftKasirController::class, 'mulai'])->name('kasir.shift.mulai');
+        Route::post('/shift/selesai', [\App\Http\Controllers\ShiftKasirController::class, 'selesai'])->name('kasir.shift.selesai');
     });
 
 });

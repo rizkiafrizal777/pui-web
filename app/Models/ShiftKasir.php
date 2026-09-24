@@ -38,4 +38,38 @@ class ShiftKasir extends Model
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna');
     }
+
+    /**
+     * Accessor untuk mendapatkan durasi kerja shift dalam format teks.
+     */
+    public function getDurasiAttribute()
+    {
+        if ($this->status === 'aktif' || empty($this->jam_selesai)) {
+            return 'Sedang berjalan...';
+        }
+
+        if (empty($this->jam_mulai)) {
+            return '-';
+        }
+
+        $mulai = \Carbon\Carbon::parse($this->jam_mulai);
+        $selesai = \Carbon\Carbon::parse($this->jam_selesai);
+
+        // Jika jam selesai lebih kecil dari jam mulai (shift malam melintasi tengah malam)
+        if ($selesai->lessThan($mulai)) {
+            $selesai = $selesai->copy()->addDay();
+        }
+
+        $totalMenit = $mulai->diffInMinutes($selesai);
+        $jam = intdiv($totalMenit, 60);
+        $menit = $totalMenit % 60;
+
+        if ($jam > 0 && $menit > 0) {
+            return "{$jam} jam {$menit} menit";
+        } elseif ($jam > 0) {
+            return "{$jam} jam";
+        } else {
+            return "{$menit} menit";
+        }
+    }
 }

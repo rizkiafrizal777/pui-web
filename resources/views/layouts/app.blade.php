@@ -69,6 +69,9 @@
                     <a href="{{ route('laporan.index') }}" class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
                         <i class="bi bi-file-earmark-bar-graph me-2"></i> Laporan
                     </a>
+                    <a href="{{ route('admin.shift') }}" class="{{ request()->routeIs('admin.shift*') ? 'active' : '' }}">
+                        <i class="bi bi-calendar-check me-2"></i> Shift Kasir
+                    </a>
                     <a href="{{ route('admin.pengguna.index') }}" class="{{ request()->routeIs('admin.pengguna.*') ? 'active' : '' }}">
                         <i class="bi bi-people me-2"></i> Pengguna
                     </a>
@@ -76,6 +79,9 @@
                         <i class="bi bi-gear me-2"></i> Pengaturan
                     </a>
                 @elseif(Auth::user()->role === 'kasir')
+                    <a href="{{ route('kasir.shift') }}" class="{{ request()->routeIs('kasir.shift*') ? 'active' : '' }}">
+                        <i class="bi bi-calendar-check me-2"></i> Shift Saya
+                    </a>
                     <a href="{{ route('kasir.pos') }}" class="{{ request()->routeIs('kasir.pos') ? 'active' : '' }}">
                         <i class="bi bi-calculator me-2"></i> Kasir (POS)
                     </a>
@@ -126,5 +132,6 @@
 <!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @yield('scripts')
+@stack('scripts')
 </body>
 </html>
