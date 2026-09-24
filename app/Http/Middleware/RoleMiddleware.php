@@ -18,11 +18,19 @@ class RoleMiddleware
     {
         // Pastikan user sudah login
         if (!Auth::check()) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json(['message' => 'Unauthenticated.'], 401);
+            }
             return redirect('/');
         }
 
         // Cek apakah role user sesuai dengan yang diminta middleware
         if (Auth::user()->role !== $role) {
+            // Jika request berupa API/JSON, kembalikan respons JSON 403 Forbidden
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json(['message' => 'Unauthorized. Akses khusus untuk peran ' . $role . '.'], 403);
+            }
+
             // Jika tidak sesuai, redirect ke tempat seharusnya mereka berada dengan pesan error
             if (Auth::user()->role === 'admin') {
                 return redirect('/admin/dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');

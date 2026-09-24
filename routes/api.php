@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProdukController;
 use App\Http\Controllers\Api\PesananController;
+use App\Http\Controllers\Api\ShiftController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +41,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Endpoint Update Profile
     Route::put('/update-profile', [AuthController::class, 'updateProfile']);
+
+    // Endpoint Shift Kasir (Khusus role kasir)
+    Route::middleware('role:kasir')->prefix('shift')->group(function () {
+        Route::get('/status', [ShiftController::class, 'status']);
+        Route::post('/mulai', [ShiftController::class, 'mulai']);
+        Route::post('/selesai', [ShiftController::class, 'selesai']);
+        Route::get('/riwayat', [ShiftController::class, 'riwayat']);
+    });
 });

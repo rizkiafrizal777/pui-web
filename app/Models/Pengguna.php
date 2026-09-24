@@ -44,4 +44,22 @@ class Pengguna extends Authenticatable
     {
         return $this->hasMany(Pesanan::class, 'id_pengguna');
     }
+
+    /**
+     * Relasi: satu pengguna bisa memiliki banyak riwayat shift kasir.
+     */
+    public function shiftKasir()
+    {
+        return $this->hasMany(ShiftKasir::class, 'id_pengguna');
+    }
+
+    /**
+     * Relasi: shift aktif milik kasir pada hari ini.
+     */
+    public function shiftAktif()
+    {
+        return $this->hasOne(ShiftKasir::class, 'id_pengguna')
+            ->where('status', 'aktif')
+            ->whereDate('tgl_shift', \Carbon\Carbon::today());
+    }
 }

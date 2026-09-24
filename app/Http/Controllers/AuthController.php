@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    /**
-     * Tampilkan form login.
-     */
+    // Tampilkan form login.
     public function showLogin()
     {
         // Jika sudah login, langsung arahkan ke dashboard/pos sesuai role
@@ -19,10 +17,7 @@ class AuthController extends Controller
 
         return view('auth.login');
     }
-
-    /**
-     * Validasi kredensial, simpan session, dan redirect.
-     */
+    // Validasi kredensial, simpan session, dan redirect.
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -36,15 +31,12 @@ class AuthController extends Controller
             // Redirect berdasarkan role
             return $this->redirectByRole(Auth::user()->role);
         }
-
         return back()->withErrors([
             'email' => 'Email atau password yang Anda masukkan salah.',
         ])->onlyInput('email');
     }
 
-    /**
-     * Hapus session dan redirect ke halaman login.
-     */
+    // Hapus session dan redirect ke halaman login.
     public function logout(Request $request)
     {
         Auth::logout();

@@ -25,9 +25,6 @@ class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMappin
         $this->sampai = $sampai;
     }
 
-    /**
-     * Mengambil data pesanan sesuai range.
-     */
     public function collection()
     {
         $start = Carbon::parse($this->dari)->startOfDay();

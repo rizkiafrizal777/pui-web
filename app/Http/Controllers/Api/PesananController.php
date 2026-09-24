@@ -30,9 +30,7 @@ class PesananController extends Controller
         ], 200);
     }
 
-    /**
-     * Melihat detail satu pesanan (struk)
-     */
+    // Melihat detail satu pesanan (struk)
     public function show(Request $request, $id)
     {
         $pesanan = Pesanan::with(['itemPesanan.produk', 'pengguna'])->find($id);
@@ -56,9 +54,7 @@ class PesananController extends Controller
         ], 200);
     }
 
-    /**
-     * Proses simpan pesanan / checkout (API)
-     */
+    // Proses simpan pesanan / checkout (API)
     public function store(Request $request)
     {
         // Validasi input dari mobile

@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
-    /**
-     * Tampilkan daftar produk untuk API Mobile.
-     */
+    // Tampilkan daftar produk untuk API Mobile.
     public function index()
     {
         // Mengambil semua produk dengan kategori

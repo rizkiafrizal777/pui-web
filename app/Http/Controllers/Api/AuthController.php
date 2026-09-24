@@ -10,18 +10,14 @@ use App\Models\Pengguna;
 
 class AuthController extends Controller
 {
-    /**
-     * Proses login untuk API Mobile.
-     */
+    // Proses login untuk API Mobile.
     public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
         $pengguna = Pengguna::where('email', $request->email)->first();
-
         // Verifikasi kredensial
         if (!$pengguna || !Hash::check($request->password, $pengguna->password)) {
             return response()->json([
@@ -29,10 +25,8 @@ class AuthController extends Controller
                 'message' => 'Email atau password salah.',
             ], 401);
         }
-
         // Hapus token lama jika perlu (optional: agar tidak terlalu banyak token di DB)
         // $pengguna->tokens()->delete();
-
         // Buat token baru
         $token = $pengguna->createToken('ngesis Kasir Mobile')->plainTextToken;
 

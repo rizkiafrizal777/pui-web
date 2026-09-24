@@ -12,9 +12,7 @@ use Carbon\Carbon;
 
 class PosController extends Controller
 {
-    /**
-     * Tampilkan halaman utama Kasir (POS)
-     */
+    // Tampilkan halaman utama Kasir (POS)
     public function index()
     {
         // Ambil semua produk yang tersedia
@@ -22,9 +20,7 @@ class PosController extends Controller
         return view('pos.index', compact('produk'));
     }
 
-    /**
-     * Proses simpan pesanan dari AJAX
-     */
+    // Proses simpan pesanan dari AJAX
     public function bayar(Request $request)
     {
         // ─── VALIDASI INPUT ───────────────────────────────────────────────────
