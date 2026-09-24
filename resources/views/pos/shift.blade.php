@@ -100,7 +100,7 @@
                                     <small class="text-muted d-block mb-1 fw-semibold">Durasi Berjalan</small>
                                     @if($shiftAktif->jam_mulai)
                                         @php
-                                            $mulai = \Carbon\Carbon::parse($shiftAktif->tgl_shift->format('Y-m-d') . ' ' . $shiftAktif->jam_mulai);
+                                            $mulai = \Carbon\Carbon::parse($shiftAktif->tgl_shift . ' ' . $shiftAktif->jam_mulai);
                                             $menit = abs($mulai->diffInMinutes(\Carbon\Carbon::now()));
                                             $j = intdiv($menit, 60);
                                             $m = $menit % 60;

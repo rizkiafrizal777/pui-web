@@ -74,25 +74,28 @@ Route::middleware('auth')->group(function () {
 
     // Route Khusus Kasir
     Route::middleware('role:kasir')->group(function () {
-        // Halaman utama POS
-        Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('kasir.pos');
-
-        // Proses checkout AJAX
-        Route::post('/pos/bayar', [App\Http\Controllers\PosController::class, 'bayar'])->name('pos.bayar');
-
-        // Halaman Konfirmasi Selesai (redirect target setelah bayar)
-        Route::get('/selesai/{id}', [App\Http\Controllers\PosController::class, 'selesai'])->name('pos.selesai');
-
-        // Halaman Struk (akses dari riwayat pesanan)
-        Route::get('/struk/{id}', [App\Http\Controllers\PosController::class, 'struk'])->name('pos.struk');
-
-        // Riwayat Pesanan
-        Route::get('/riwayat-pesanan', [App\Http\Controllers\PosController::class, 'riwayat'])->name('kasir.riwayat');
-
-        // Halaman Shift Kasir (web-based)
+        // Halaman Shift Kasir (web-based) — BEBAS diakses tanpa shift aktif
         Route::get('/shift', [\App\Http\Controllers\ShiftKasirController::class, 'index'])->name('kasir.shift');
         Route::post('/shift/mulai', [\App\Http\Controllers\ShiftKasirController::class, 'mulai'])->name('kasir.shift.mulai');
         Route::post('/shift/selesai', [\App\Http\Controllers\ShiftKasirController::class, 'selesai'])->name('kasir.shift.selesai');
+
+        // Riwayat Pesanan — BEBAS diakses tanpa shift aktif
+        Route::get('/riwayat-pesanan', [App\Http\Controllers\PosController::class, 'riwayat'])->name('kasir.riwayat');
+
+        // Halaman Struk — BEBAS diakses tanpa shift aktif
+        Route::get('/struk/{id}', [App\Http\Controllers\PosController::class, 'struk'])->name('pos.struk');
+
+        // ─── Routes yang MEMERLUKAN shift aktif ───────────────────────────────
+        Route::middleware('cek.shift')->group(function () {
+            // Halaman utama POS — hanya bisa diakses jika shift aktif
+            Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('kasir.pos');
+
+            // Proses checkout AJAX — hanya bisa bayar jika shift aktif
+            Route::post('/pos/bayar', [App\Http\Controllers\PosController::class, 'bayar'])->name('pos.bayar');
+
+            // Halaman konfirmasi selesai transaksi
+            Route::get('/selesai/{id}', [App\Http\Controllers\PosController::class, 'selesai'])->name('pos.selesai');
+        });
     });
 
 });

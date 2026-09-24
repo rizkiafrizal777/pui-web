@@ -28,13 +28,16 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    // Endpoint Produk
+    // Endpoint Produk — bebas diakses (tidak perlu shift aktif)
     Route::get('/produk', [ProdukController::class, 'index']);
 
-    // Endpoint Pesanan / Transaksi
-    Route::post('/pesanan', [PesananController::class, 'store']);
+    // Endpoint Pesanan
+    // GET (lihat riwayat & detail) — bebas diakses
     Route::get('/pesanan', [PesananController::class, 'index']);
     Route::get('/pesanan/{id}', [PesananController::class, 'show']);
+
+    // POST (buat transaksi baru) — WAJIB shift aktif
+    Route::post('/pesanan', [PesananController::class, 'store'])->middleware('cek.shift');
 
     // Endpoint Logout
     Route::post('/logout', [AuthController::class, 'logout']);
